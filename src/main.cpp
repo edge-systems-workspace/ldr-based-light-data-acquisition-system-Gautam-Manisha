@@ -1,4 +1,7 @@
 #include <Arduino.h>
+#define LDR_PIN A0
+int ldrValue = 0;
+
 /**
  * @file main.ino
  * @brief Embedded Light Intensity Monitoring using LDR
@@ -18,27 +21,33 @@
 
 void setup() {
 
-    // TODO 3:
-    // Initialize Serial communication (9600 baud rate)
+    Serial.begin(9600);
 
-    // TODO 4:
-    // Print system initialization message
+    Serial.println("LDR Light Monitoring System Initialized...");
+    Serial.println("----------------------------------------");
+
 }
 
 void loop() {
 
-    // TODO 5:
-    // Read analog value from LDR
+    // Read analog value from LDR (Range: 0 - 1023)
+    ldrValue = analogRead(LDR_PIN);
 
-    // TODO 6:
-    // Print raw ADC value
+    // Print raw ADC value to Serial Monitor
+    Serial.print("Raw LDR Value: ");
+    Serial.print(ldrValue);
 
-    // TODO 7:
-    // Apply threshold logic (Bright / Dark detection)
+    // Threshold logic for brightness detection
+    // Typical values: < 300 Dark, 300-700 Dim, > 700 Bright
+    if (ldrValue < 300) {
+        Serial.println(" - Status: [DARK]");
+    } else if (ldrValue < 700) {
+        Serial.println(" - Status: [DIM]");
+    } else {
+        Serial.println(" - Status: [BRIGHT]");
+    }
 
-    // TODO 8:
-    // Print brightness status
+    // Stability delay
+    delay(500);
 
-    // TODO 9:
-    // Add delay (500ms or 1 second)
 }
